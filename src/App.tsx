@@ -16,8 +16,9 @@ function App() {
   }, []);
 
   const generatePassword = () => {
-    const password = generateRandomString(length, cases);
+    const [password, strength] = generateRandomString(length, cases);
     password && setStateValue({ password });
+    strength && setStateValue({ strength });
   };
 
   return (

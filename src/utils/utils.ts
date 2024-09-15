@@ -1,16 +1,26 @@
 import { Cases } from "../types/state";
-import { characters, COUNT_PERCENT } from "./constants";
+import {
+  characters,
+  CONTENT,
+  COUNT_PERCENT,
+  STRONG_THRESHOLD,
+  WEAK_THRESHOLD,
+} from "./constants";
 // Function to generate random password
 export const generateRandomString = (
   length: number,
   options: Cases[]
-): string => {
-  const minCount = Math.floor((COUNT_PERCENT/ 100) * length);
-
+): Array<string> => {
+  const minCount = Math.floor((COUNT_PERCENT / 100) * length);
+  let availableChars = "";
   let result = "";
-  const availableChars = Object.keys(characters)
-    .map((key) => characters[key])
-    .join("");
+  let strength = "";
+  options.forEach((option) => {
+    if (option.value) {
+      availableChars += characters[option.title];
+    }
+  });
+  //password should contain minCount no. of characters of each option
   options.forEach((option) => {
     if (option.value) {
       for (let i = 0; i < minCount; i++) {
@@ -32,5 +42,32 @@ export const generateRandomString = (
     .split("")
     .sort(() => Math.random() - 0.5)
     .join("");
-  return result;
+
+  if (result.length > WEAK_THRESHOLD) {
+    validatePassword(result) && result.length > STRONG_THRESHOLD
+      ? (strength = CONTENT.STRONG)
+      : (strength = CONTENT.GOOD);
+  } else {
+    strength = CONTENT.WEAK;
+  }
+  return [result, strength];
+};
+
+const validatePassword = (password: string) => {
+  const hasLowercase = /[a-z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSymbol = /[^a-zA-Z0-9]/.test(password);
+
+  return hasLowercase && hasUppercase && hasNumber && hasSymbol;
+};
+
+export const getColor = (strength: string) => {
+  if (strength === "Weak") {
+    return "text-red-500";
+  } else if (strength === "Good") {
+    return "text-yellow-500";
+  } else if (strength === "Strong") {
+    return "text-green-500";
+  }
 };

@@ -2,6 +2,7 @@
 import { Switcher } from "./Switcher";
 import { usePasswordDispatch, usePasswordGenerator } from "../state/state";
 import { CONTENT } from "../utils/constants";
+import { useEffect } from "react";
 
 export const Slider = () => {
   const { length, cases } = usePasswordGenerator();
@@ -23,6 +24,21 @@ export const Slider = () => {
     });
     setCases(updatedCases);
   };
+
+  useEffect(() => {
+    const allFalse = cases.every((caseType) => !caseType.value);
+    if (allFalse) {
+      const updatedCases = cases.map((caseType) => {
+        if(caseType.title === CONTENT.LOWERCASE) {
+          return { ...caseType, value: true };
+        }else{
+          return { ...caseType, value: false };
+        }
+      })
+      setCases(updatedCases); 
+    }
+  }, [cases, setCases]);
+
   return (
     <div className="flex flex-col gap-4 mt-3">
       <p>{CONTENT.LENGTH} {length}</p>

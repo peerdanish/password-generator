@@ -5,6 +5,7 @@ export type Cases = { title: string; value: boolean, displayName: string };
 export type InitialStates = {
   password: string;
   length: number;
+  strength: string;
   cases: Cases[];
 };
 

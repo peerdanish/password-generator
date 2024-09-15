@@ -14,6 +14,7 @@ import { Cases, InitialSetterStates, InitialStates } from "../types/state";
 const initialStates: InitialStates = {
   password: "",
   length: 15,
+  strength: "Weak",
   cases: [
     { title: "uppercase", value: false, displayName: "Uppercase" },
     { title: "lowercase", value: false, displayName: "Lowercase" },

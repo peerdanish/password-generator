@@ -13,6 +13,12 @@ export const CONTENT = {
   COPIED: "Copied",
   LENGTH: "Password Length:",
   GENERATED_PASSWORD: "Generated Password",
+  LOWERCASE: "lowercase",
+  WEAK: "Weak",
+  GOOD: "Good",
+  STRONG: "Strong",
 }
 
 export const COUNT_PERCENT = 20
+export const WEAK_THRESHOLD = 8
+export const STRONG_THRESHOLD = 16
